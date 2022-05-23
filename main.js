@@ -7,5 +7,6 @@ class PoemTemplate {
 }
 
 const poem1 = new PoemTemplate(1, "New Snack", "This morning I tried a new snack", "I found it at the bottom of ...", "It was ... and yummy", "It felt ... in my tummy", "And now the new snack ...");
+const poem2 = new PoemTemplate(2, "Cocktail Hour", "Have you ever seen two ladies in the park", "Sipping on ... before it gets dark", "... are they planning to ... next", "Is this life that they're living ...");
+const poem3 = new PoemTemplate(3, "Movement", "Run, run, run", "Run back...", "Or else the things that you ...", "Will only keep ...");
 
-console.log(poem1);
