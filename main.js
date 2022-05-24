@@ -15,12 +15,13 @@ const poem3 = new PoemTemplate(3, "Movement", "Run, run, run", "Run back...", "O
 let thePoetThatDidNotKnowIt = {
     poems: [],
     play() {
+        console.log("Welcome to The Poet That Didn't Know It!")
         const randomPoem = [];
         let selector = Math.ceil(Math.random() * 3);
         for (const poem of this.poems) {
             if(poem.number === selector) {
-                randomPoem.push(poem)
-                console.log(randomPoem)
+                randomPoem.push(poem);
+                return randomPoem;                
             }
         }
     }
@@ -29,7 +30,7 @@ let thePoetThatDidNotKnowIt = {
 thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3);
 console.log(thePoetThatDidNotKnowIt.play())
 
-// Welcome to The Poet That Didn't Know It!
+// 
 
 // let gameIntro = prompt("What is your name?");
 // console.log(gameIntro);
