@@ -38,11 +38,12 @@ const poem3 = new PoemTemplate(
 
 let thePoetThatDidNotKnowIt = {
   poems: [],
-  play() {
+  username: "",
+  start() {
     console.log(
       "Welcome to The Poet That Did Not Know It!\n-----------------------------------------"
     ); // welcome message and game title
-    const username = prompt("Please choose your username: "); // input will be used to address user throughout the game
+    this.username = prompt("Please choose your username: "); // input will be used to address user throughout the game
     console.clear(); // Cleans the console in order to start the game
     let selector = Math.ceil(Math.random() * 3); // Generates random number in order to select random poem for each game
     const randomPoem = {}; // empty object to store random poem for each game
@@ -50,64 +51,49 @@ let thePoetThatDidNotKnowIt = {
       // for...of loop and if statement searches poems array for matching number
       if (poem.number === selector) {
         Object.assign(randomPoem, poem); // copies poem with matching number to randomPoem object
-        console.log(`Hi ${username}, your poem is: '${randomPoem.title}'`); // announces selected poem to user
+        console.log(`Hi ${this.username}, your poem is: '${randomPoem.title}'`); // announces selected poem to user
       }
     }
     const startGame = prompt("Are you ready? Y/N: "); // leads to options for user to start, restart or quit
-    switch (startGame.toLowerCase()) {
-      case "y":
-        console.clear();
-        console.log("Great, let's go!");
-        break;
-      case "n":
-        const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
-        if (restartOrQuit.toLowerCase() === "q") {
+    if (startGame.toLowerCase() === "n") {
+      const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
+      switch (restartOrQuit.toLowerCase()) {
+        case "q":
           console.clear();
-        } else {
+          break;
+        case "r":
           console.clear();
-          this.play(); // restarts function
-        }
-        break;
-      default: // gives user another chance to start again in case of typos
-        console.clear();
-        const tryAgain = prompt(
-          `Apologies ${username} but your response has not been recognised, do you want to try again? Y/N: `
-        );
-        switch (tryAgain.toLowerCase) {
-          case "y":
-            console.clear();
-            this.play(); // restarts function
-            break;
-          default:
-            console.clear();
-            console.log("Game over :(");
-        }
+          this.start(); // restarts function
+          break;
+        default:
+          this.typo();
+      }
+    } else if (
+      !(startGame.toLowerCase() === "n" ||
+      startGame.toLowerCase() === "y")
+    ) {
+      this.typo();
+    } else {
+      console.clear();
+      console.log("Great, let's go!");
     }
-
-    // }
-    // if (startGame === "Y" || startGame === "y") {
-    //   console.clear();
-    //   console.log("Great, let's go!");
-    // } else if (startGame === "N") {
-    //   const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
-    //   if (restartOrQuit === "Q" || restartOrQuit === "q") {
-    //     console.clear();
-    //   } else {
-    //     console.clear();
-    //     this.play(); // restarts function
-    //   }
-    // } else if {
-    //   console.clear();
-    //   const tryAgain = prompt(
-    //     `Apologies ${username} but your response has not been recognised, do you want to try again? Y/N: `
-    //   );
-    //   if (tryAgain === "Y" || tryAgain = "y") {
-    //     console.clear();
-    //   this.play(); // restarts function
-    //   }
-
-    // }
   },
+  typo() {
+    console.clear();
+    const tryAgain = prompt(
+      `Apologies ${this.username} but your response has not been recognised, type 'Y' if you want to try again: `
+    );
+    if (tryAgain.toLowerCase() === "y") {
+      console.clear();
+      this.play(); // restarts function
+    } else {
+      console.clear();
+      console.log("Game over :(");
+    }
+  },
+  play() {
+      
+  }
 };
 
 thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3);
