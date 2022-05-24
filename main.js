@@ -15,7 +15,8 @@ const poem3 = new PoemTemplate(3, "Movement", "Run, run, run", "Run back...", "O
 let thePoetThatDidNotKnowIt = {
     poems: [],
     play() {
-        console.log("Welcome to The Poet That Didn't Know It!")
+        console.log("Welcome to The Poet That Didn't Know It!");
+        const username = prompt("Please choose your username: ");
         const randomPoem = [];
         let selector = Math.ceil(Math.random() * 3);
         for (const poem of this.poems) {
