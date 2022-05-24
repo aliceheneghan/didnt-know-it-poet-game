@@ -53,21 +53,60 @@ let thePoetThatDidNotKnowIt = {
         console.log(`Hi ${username}, your poem is: '${randomPoem.title}'`); // announces selected poem to user
       }
     }
-    const startGame = prompt("Are you ready? Y/N: ");
-    if (startGame === "Y") {
-      console.clear();
-      console.log("Great, let's go!");
-    } else if (startGame === "N") {
-      const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
-      if (restartOrQuit === "Q") {
+    const startGame = prompt("Are you ready? Y/N: "); // leads to options for user to start, restart or quit
+    switch (startGame.toLowerCase()) {
+      case "y":
         console.clear();
-      } else {
+        console.log("Great, let's go!");
+        break;
+      case "n":
+        const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
+        if (restartOrQuit.toLowerCase() === "q") {
+          console.clear();
+        } else {
+          console.clear();
+          this.play(); // restarts function
+        }
+        break;
+      default: // gives user another chance to start again in case of typos
         console.clear();
-        this.play();
-      }
-    } else {
-      console.clear();
+        const tryAgain = prompt(
+          `Apologies ${username} but your response has not been recognised, do you want to try again? Y/N: `
+        );
+        switch (tryAgain.toLowerCase) {
+          case "y":
+            console.clear();
+            this.play(); // restarts function
+            break;
+          default:
+            console.clear();
+            console.log("Game over :(");
+        }
     }
+
+    // }
+    // if (startGame === "Y" || startGame === "y") {
+    //   console.clear();
+    //   console.log("Great, let's go!");
+    // } else if (startGame === "N") {
+    //   const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
+    //   if (restartOrQuit === "Q" || restartOrQuit === "q") {
+    //     console.clear();
+    //   } else {
+    //     console.clear();
+    //     this.play(); // restarts function
+    //   }
+    // } else if {
+    //   console.clear();
+    //   const tryAgain = prompt(
+    //     `Apologies ${username} but your response has not been recognised, do you want to try again? Y/N: `
+    //   );
+    //   if (tryAgain === "Y" || tryAgain = "y") {
+    //     console.clear();
+    //   this.play(); // restarts function
+    //   }
+
+    // }
   },
 };
 
