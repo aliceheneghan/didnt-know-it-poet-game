@@ -15,14 +15,15 @@ const poem3 = new PoemTemplate(3, "Movement", "Run, run, run", "Run back...", "O
 let thePoetThatDidNotKnowIt = {
     poems: [],
     play() {
-        console.log("Welcome to The Poet That Didn't Know It!");
-        const username = prompt("Please choose your username: ");
+        console.log("Welcome to The Poet That Did Not Know It!\n-----------------------------------------"); // welcome message and game title
+        const username = prompt("Please choose your username: "); // input will be used to address user throughout the game
+        console.clear(); // Cleans the console in order to start the game
         const randomPoem = [];
-        let selector = Math.ceil(Math.random() * 3);
+        let selector = Math.ceil(Math.random() * 3); // Generates random number in order to select random poem for each game
         for (const poem of this.poems) {
             if(poem.number === selector) {
                 randomPoem.push(poem);
-                return randomPoem;                
+                return `Hi ${username}, your poem is: '${randomPoem[0].title}'`;                
             }
         }
     }
