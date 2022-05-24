@@ -45,16 +45,7 @@ let thePoetThatDidNotKnowIt = {
     ); // welcome message and game title
     this.username = prompt("Please choose your username: "); // input will be used to address user throughout the game
     console.clear(); // Cleans the console in order to start the game
-    let selector = Math.ceil(Math.random() * 3); // Generates random number in order to select random poem for each game
-    const randomPoem = {}; // empty object to store random poem for each game
-    for (const poem of this.poems) {
-      // for...of loop and if statement searches poems array for matching number
-      if (poem.number === selector) {
-        Object.assign(randomPoem, poem); // copies poem with matching number to randomPoem object
-        console.log(`Hi ${this.username}, your poem is: '${randomPoem.title}'`); // announces selected poem to user
-      }
-    }
-    const startGame = prompt("Are you ready? Y/N: "); // leads to options for user to start, restart or quit
+    const startGame = prompt(`Are you ready to rhyme ${this.username}? Y/N: `); // leads to options for user to start, restart or quit
     if (startGame.toLowerCase() === "n") {
       const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
       switch (restartOrQuit.toLowerCase()) {
@@ -75,29 +66,39 @@ let thePoetThatDidNotKnowIt = {
       this.typo();
     } else {
       console.clear();
-      console.log("Great, let's go!");
+      return this.play();
     }
   },
-  typo() {
+  typo() { // method to be called on in case of user typo so they can try again
     console.clear();
     const tryAgain = prompt(
       `Apologies ${this.username} but your response has not been recognised, type 'Y' if you want to try again: `
     );
     if (tryAgain.toLowerCase() === "y") {
       console.clear();
-      this.play(); // restarts function
+      this.start(); // restarts game
     } else {
       console.clear();
       console.log("Game over :(");
     }
   },
   play() {
-      
+    console.log("Great, let's go!");
+    const randomPoem = {}; // empty object to store random poem for each game
+    let selector = Math.ceil(Math.random() * 3); // Generates random number in order to select random poem for each game
+    for (const poem of this.poems) {
+      // for...of loop and if statement searches poems array for matching number
+      if (poem.number === selector) {
+        Object.assign(randomPoem, poem); // copies poem with matching number to randomPoem object
+        console.log(`Your poem is called: '${randomPoem.title}'`); // announces selected poem to user
+      }
+    }
+    return;
   }
 };
 
 thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3);
-console.log(thePoetThatDidNotKnowIt.play());
+console.log(thePoetThatDidNotKnowIt.start());
 
 //
 
