@@ -106,7 +106,22 @@ let thePoetThatDidNotKnowIt = {
       `Your poem is complete! Type 'Yaas' if you want to see your feat :D `
     );
     if (finalResult.toLowerCase() === "yaas") {
-        this.display();
+      console.clear();
+      console.log(randomPoem.title + "\n");
+      userPoem.forEach((line) => {
+          if (typeof line === "string") {
+              console.log(line);
+          }
+    })
+    }
+    const playAgain = prompt(
+      `\n---------------------------------------------\n\nDo you want to play again ${this.username}? Y/N: `
+    );
+    if (playAgain.toLowerCase() === "y") {
+        console.clear();
+      this.start();
+    } else {
+      return "Goodbye!";
     }
   },
 };
