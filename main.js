@@ -1,3 +1,5 @@
+const { clear } = require("console");
+
 const prompt = require("prompt-sync")({ sigint: true });
 
 // class to add new poems with ease
@@ -5,7 +7,7 @@ class PoemTemplate {
   constructor(number, title, line1, line2, line3, line4, line5) {
     this.number = number;
     this.title = title;
-    this.poem = [line1, line2, line3, line4, line5];
+    this.stanza = [line1, line2, line3, line4, line5];
   }
 }
 
@@ -22,16 +24,16 @@ const poem1 = new PoemTemplate(
 const poem2 = new PoemTemplate(
   2,
   "Cocktail Hour",
-  "Have you ever seen two ladies in the park",
+  "Have you ever seen two ... in the park",
   "Sipping on ... before it gets dark",
-  "... are they planning to ... next",
-  "Is this life that they're living ..."
+  "When aperatif o'clock chimes",
+  "It's time to leave ... behind!"
 );
 const poem3 = new PoemTemplate(
   3,
   "Movement",
   "Run, run, run",
-  "Run back...",
+  "Run all the way ...",
   "Or else the things that you ...",
   "Will only keep ..."
 );
@@ -60,8 +62,7 @@ let thePoetThatDidNotKnowIt = {
           this.typo();
       }
     } else if (
-      !(startGame.toLowerCase() === "n" ||
-      startGame.toLowerCase() === "y")
+      !(startGame.toLowerCase() === "n" || startGame.toLowerCase() === "y")
     ) {
       this.typo();
     } else {
@@ -69,7 +70,8 @@ let thePoetThatDidNotKnowIt = {
       return this.play();
     }
   },
-  typo() { // method to be called on in case of user typo so they can try again
+  typo() {
+    // method to be called on in case of user typo so they can try again
     console.clear();
     const tryAgain = prompt(
       `Apologies ${this.username} but your response has not been recognised, type 'Y' if you want to try again: `
@@ -83,24 +85,32 @@ let thePoetThatDidNotKnowIt = {
     }
   },
   play() {
-    console.log("Great, let's go!");
-    const randomPoem = {}; // empty object to store random poem for each game
     let selector = Math.ceil(Math.random() * 3); // Generates random number in order to select random poem for each game
-    for (const poem of this.poems) {
-      // for...of loop and if statement searches poems array for matching number
-      if (poem.number === selector) {
-        Object.assign(randomPoem, poem); // copies poem with matching number to randomPoem object
-        console.log(`Your poem is called: '${randomPoem.title}'`); // announces selected poem to user
+    const randomPoem = this.poems.find((poem) => poem.number === selector); // finds and stores random poem for each game
+    console.log(
+      `Great, let's go!\n----------------\nYour poem is called '${randomPoem.title}'\n`
+    );
+    const userPoem = []; // empty array to push user's customised poem to
+    randomPoem.stanza.forEach((line) => {
+      if (typeof line === "string" && line.includes("...")) { // if the array element s undefined the includes method won't run
+        const input = prompt(`${line} : `); // prints line and accepts user input
+        let customised = line.replace("...", input); // copies line and replaces ... with user input
+        userPoem.push(customised); // pushes customised line to empty array
+      } else {
+        console.log(line); // this is for lines that don't have a ... for user input
+        userPoem.push(line);
       }
+    });
+    console.clear();
+    const finalResult = prompt(
+      `Your poem is complete! Type 'Yaas' if you want to see your feat :D `
+    );
+    if (finalResult.toLowerCase() === "yaas") {
+        this.display();
     }
-    return;
-  }
+  },
 };
 
 thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3);
 console.log(thePoetThatDidNotKnowIt.start());
 
-//
-
-// let gameIntro = prompt("What is your name?");
-// console.log(gameIntro);
