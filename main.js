@@ -96,7 +96,7 @@ let thePoetThatDidNotKnowIt = {
     ); // welcome message and game title
     this.username = prompt("Please choose your username: "); // input will be used to address user throughout the game
     console.clear();
-    const viewInstructions = prompt(`Would you like to read the instructions ${this.username}? Y/N: `).toLowerCase();
+    const viewInstructions = prompt(`Would you like to read the instructions ${this.username} (Y/N)? `).toLowerCase();
     switch (viewInstructions) {
       case "y":
         console.clear();
@@ -111,8 +111,25 @@ let thePoetThatDidNotKnowIt = {
         this.typo();
     }
   },
+  printInstructions() {
+    console.log(this.instructions);
+},
+typo() {
+  // method to be called on in case of user typo so they can try again
+  console.clear();
+  const tryAgain = prompt(
+    `Apologies ${this.username} but your response has not been recognised, type 'Y' if you want to try again: `
+  );
+  if (tryAgain.toLowerCase() === "y") {
+    console.clear();
+    this.start(); // restarts game
+  } else {
+    console.clear();
+    console.log("Game over :(");
+  }
+},
   start() {
-    const startGame = prompt(`Are you ready to rhyme ${this.username}? Y/N: `).toLowerCase(); // leads to options for user to start, restart or quit
+    const startGame = prompt(`Are you ready to rhyme ${this.username}? (Y/N): `).toLowerCase(); // leads to options for user to start, restart or quit
     if (startGame === "n") {
       const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ").toLowerCase();
       switch (restartOrQuit) {
@@ -127,29 +144,12 @@ let thePoetThatDidNotKnowIt = {
           this.typo();
       }
     } else if (
-      !(startGame.toLowerCase() === "n" || startGame.toLowerCase() === "y")
+      !(startGame === "n" || startGame === "y")
     ) {
       this.typo();
     } else {
       console.clear();
       return this.play();
-    }
-  },
-  printInstructions() {
-      console.log(this.instructions);
-  },
-  typo() {
-    // method to be called on in case of user typo so they can try again
-    console.clear();
-    const tryAgain = prompt(
-      `Apologies ${this.username} but your response has not been recognised, type 'Y' if you want to try again: `
-    );
-    if (tryAgain.toLowerCase() === "y") {
-      console.clear();
-      this.start(); // restarts game
-    } else {
-      console.clear();
-      console.log("Game over :(");
     }
   },
   play() {
@@ -165,24 +165,27 @@ let thePoetThatDidNotKnowIt = {
         const input = prompt(`${line} : `); // prints line and accepts user input
         let customised = line.replace("...", input); // copies line and replaces ... with user input
         userPoem.push(customised); // pushes customised line to empty array
-      } else {
+      } else if (typeof line === "string") {
         console.log(line); // this is for lines that don't have a ... for user input
         userPoem.push(line);
       }
     });
     console.clear();
     const finalResult = prompt(
-      `Your poem is complete! Type 'Yaas' if you want to see your feat :D `
+      `Your poem is complete! Hit Enter to see your feat :D `
     );
-    if (finalResult.toLowerCase() === "yaas") {
-      console.clear();
-      console.log(randomPoem.title + "\n");
-      userPoem.forEach((line) => {
-        if (typeof line === "string") {
+    console.clear();
+    console.log(`${randomPoem.title}
+    `);
+    userPoem.forEach((line) => {
           console.log(line);
-        }
       });
-    } else {
+      const playAgain = prompt(
+        `
+        ---------------------------------------------
+        
+        ${this.username} do you want to play again (Y/N) or discover a surprise (S)? `
+      );
       if (playAgain.toLowerCase() === "y") {
         console.clear();
         this.start();
@@ -192,11 +195,7 @@ let thePoetThatDidNotKnowIt = {
       } else {
         return "Goodbye!";
       }
-    }
-    console.clear();
-    const playAgain = prompt(
-      `\n---------------------------------------------\n\n${this.username} do you want to play again (Y) or discover a surprise (S)? `
-    );
+      console.clear();  
   },
   surprise() {
     const surprise = this.poems.find((poem) => poem.number === 4);
