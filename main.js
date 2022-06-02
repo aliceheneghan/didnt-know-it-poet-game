@@ -175,27 +175,29 @@ typo() {
       `Your poem is complete! Hit Enter to see your feat :D `
     );
     console.clear();
+    // prints final result
     console.log(`${randomPoem.title}
     `);
     userPoem.forEach((line) => {
           console.log(line);
       });
-      const playAgain = prompt(
-        `
-        ---------------------------------------------
-        
-        ${this.username} do you want to play again (Y/N) or discover a surprise (S)? `
-      );
-      if (playAgain.toLowerCase() === "y") {
+    this.playAgain();
+  },
+  playAgain() {
+  const playAgain = prompt(`\n--------------------------------------------------------------------
+  \n${this.username} do you want to play again (Y/N) or discover a surprise (S)? `).toLowerCase();
+    switch (playAgain) {
+      case "y":
         console.clear();
         this.start();
-      } else if (playAgain.toLowerCase() === "s") {
+        break;
+      case "s":
         console.clear();
         this.surprise();
-      } else {
+        break;
+      default:
         return "Goodbye!";
       }
-      console.clear();  
   },
   surprise() {
     const surprise = this.poems.find((poem) => poem.number === 4);
