@@ -4,10 +4,34 @@ const prompt = require("prompt-sync")({ sigint: true });
 
 // class to add new poems with ease
 class PoemTemplate {
-  constructor(number, title, line1, line2, line3, line4, line5) {
+  constructor(
+    number,
+    title,
+    line1,
+    line2,
+    line3,
+    line4,
+    line5,
+    line6,
+    line7,
+    line8,
+    line9,
+    line10
+  ) {
     this.number = number;
     this.title = title;
-    this.stanza = [line1, line2, line3, line4, line5];
+    this.stanza = [
+      line1,
+      line2,
+      line3,
+      line4,
+      line5,
+      line6,
+      line7,
+      line8,
+      line9,
+      line10,
+    ];
   }
 }
 
@@ -35,18 +59,57 @@ const poem3 = new PoemTemplate(
   "Run, run, run",
   "Run all the way ...",
   "Or else the things that you ...",
-  "Will only keep ..."
+  "Will only ..."
+);
+const poem4 = new PoemTemplate(
+  4,
+  "Surprise Poem",
+  "There once was a man and a lady",
+  "Whose class rep missed their birthdays",
+  "So she would like to say sorry",
+  "And ask the whole class can we...",
+  "Please give our lovely Baha and Aika a round of applause?",
+  "But do not fear Mr. Arena",
+  "Our dungeons and dragons macchina",
+  "I know your birthday is tomorrow",
+  "So class...",
+  "Can I get a 'he's a jolly good fellow'!?"
 );
 
 let thePoetThatDidNotKnowIt = {
+  instructions: `Each line of the poem will be displayed one at a time
+
+  If the line contains '...' you can type your own input and hit Enter
+
+    If there is no '...' just hit Enter
+
+      Once your poem is complete it will be displayed
+
+        Hit CTRL+c at any time to exit
+  
+  `,
   poems: [],
   username: "",
-  start() {
+  welcome() {
     console.log(
       "Welcome to The Poet That Did Not Know It!\n-----------------------------------------"
     ); // welcome message and game title
     this.username = prompt("Please choose your username: "); // input will be used to address user throughout the game
-    console.clear(); // Cleans the console in order to start the game
+    console.clear();
+    const viewInstructions = prompt(`Would you like to read the instructions ${this.username}? Y/N: `).toLowerCase();
+    if (viewInstructions === "y") {
+      console.clear();
+      this.printInstructions();
+      this.start();
+    }
+    else if (viewInstructions === "n") {
+      this.start();
+    }
+    else {
+      this.typo();
+    }
+  },
+  start() {
     const startGame = prompt(`Are you ready to rhyme ${this.username}? Y/N: `); // leads to options for user to start, restart or quit
     if (startGame.toLowerCase() === "n") {
       const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
@@ -70,6 +133,9 @@ let thePoetThatDidNotKnowIt = {
       return this.play();
     }
   },
+  printInstructions() {
+      console.log(this.instructions);
+  },
   typo() {
     // method to be called on in case of user typo so they can try again
     console.clear();
@@ -92,7 +158,8 @@ let thePoetThatDidNotKnowIt = {
     );
     const userPoem = []; // empty array to push user's customised poem to
     randomPoem.stanza.forEach((line) => {
-      if (typeof line === "string" && line.includes("...")) { // if the array element s undefined the includes method won't run
+      if (typeof line === "string" && line.includes("...")) {
+        // if the array element s undefined the includes method won't run
         const input = prompt(`${line} : `); // prints line and accepts user input
         let customised = line.replace("...", input); // copies line and replaces ... with user input
         userPoem.push(customised); // pushes customised line to empty array
@@ -109,23 +176,31 @@ let thePoetThatDidNotKnowIt = {
       console.clear();
       console.log(randomPoem.title + "\n");
       userPoem.forEach((line) => {
-          if (typeof line === "string") {
-              console.log(line);
-          }
-    })
-    }
-    const playAgain = prompt(
-      `\n---------------------------------------------\n\nDo you want to play again ${this.username}? Y/N: `
-    );
-    if (playAgain.toLowerCase() === "y") {
-        console.clear();
-      this.start();
+        if (typeof line === "string") {
+          console.log(line);
+        }
+      });
     } else {
-      return "Goodbye!";
+      if (playAgain.toLowerCase() === "y") {
+        console.clear();
+        this.start();
+      } else if (playAgain.toLowerCase() === "s") {
+        console.clear();
+        this.surprise();
+      } else {
+        return "Goodbye!";
+      }
     }
+    console.clear();
+    const playAgain = prompt(
+      `\n---------------------------------------------\n\n${this.username} do you want to play again (Y) or discover a surprise (S)? `
+    );
+  },
+  surprise() {
+    const surprise = this.poems.find((poem) => poem.number === 4);
+    return surprise.stanza.forEach((line) => prompt(`${line}`));
   },
 };
 
-thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3);
-console.log(thePoetThatDidNotKnowIt.start());
-
+thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3, poem4);
+console.log(thePoetThatDidNotKnowIt.welcome());
