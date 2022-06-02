@@ -97,29 +97,31 @@ let thePoetThatDidNotKnowIt = {
     this.username = prompt("Please choose your username: "); // input will be used to address user throughout the game
     console.clear();
     const viewInstructions = prompt(`Would you like to read the instructions ${this.username}? Y/N: `).toLowerCase();
-    if (viewInstructions === "y") {
-      console.clear();
-      this.printInstructions();
-      this.start();
-    }
-    else if (viewInstructions === "n") {
-      this.start();
-    }
-    else {
-      this.typo();
+    switch (viewInstructions) {
+      case "y":
+        console.clear();
+        this.printInstructions();
+        this.start();
+        break;
+      case "n":
+        console.clear();
+        this.start();
+        break;
+      default:
+        this.typo();
     }
   },
   start() {
-    const startGame = prompt(`Are you ready to rhyme ${this.username}? Y/N: `); // leads to options for user to start, restart or quit
-    if (startGame.toLowerCase() === "n") {
-      const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ");
-      switch (restartOrQuit.toLowerCase()) {
+    const startGame = prompt(`Are you ready to rhyme ${this.username}? Y/N: `).toLowerCase(); // leads to options for user to start, restart or quit
+    if (startGame === "n") {
+      const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ").toLowerCase();
+      switch (restartOrQuit) {
         case "q":
           console.clear();
           break;
         case "r":
           console.clear();
-          this.start(); // restarts function
+          this.welcome(); // restarts function
           break;
         default:
           this.typo();
