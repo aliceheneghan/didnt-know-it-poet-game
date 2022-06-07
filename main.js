@@ -61,6 +61,7 @@ const poem3 = new PoemTemplate(
   "Or else the things that you ...",
   "Will only ..."
 );
+// poem a surprise for my classmates during the presentation of my project
 const poem4 = new PoemTemplate(
   4,
   "Surprise Poem",
@@ -92,7 +93,7 @@ let thePoetThatDidNotKnowIt = {
   username: "",
   welcome() {
     console.log(
-      "Welcome to The Poet That Did Not Know It!\n-----------------------------------------"
+      `\n\nWelcome to The Poet That Did Not Know It!\n-----------------------------------------`
     ); // welcome message and game title
     this.username = prompt("Please choose your username: "); // input will be used to address user throughout the game
     console.clear();
@@ -108,33 +109,35 @@ let thePoetThatDidNotKnowIt = {
         this.start();
         break;
       default:
-        this.typo();
+        return this.typo();
     }
   },
   printInstructions() {
-    console.log(this.instructions);
+    return prompt(`${this.instructions}`);
 },
 typo() {
   // method to be called on in case of user typo so they can try again
   console.clear();
   const tryAgain = prompt(
     `Apologies ${this.username} but your response has not been recognised, type 'Y' if you want to try again: `
-  );
-  if (tryAgain.toLowerCase() === "y") {
+  ).toLowerCase();
+  if (tryAgain === "y") {
     console.clear();
     this.start(); // restarts game
   } else {
     console.clear();
-    console.log("Game over :(");
+    this.goodbye();
   }
 },
   start() {
     const startGame = prompt(`Are you ready to rhyme ${this.username}? (Y/N): `).toLowerCase(); // leads to options for user to start, restart or quit
     if (startGame === "n") {
+      console.clear();
       const restartOrQuit = prompt("Type 'R' to restart or 'Q' to quit: ").toLowerCase();
       switch (restartOrQuit) {
         case "q":
           console.clear();
+          this.goodbye();
           break;
         case "r":
           console.clear();
@@ -161,7 +164,7 @@ typo() {
     const userPoem = []; // empty array to push user's customised poem to
     randomPoem.stanza.forEach((line) => {
       if (typeof line === "string" && line.includes("...")) {
-        // if the array element s undefined the includes method won't run
+        // if the array element is undefined the includes method won't run
         const input = prompt(`${line} : `); // prints line and accepts user input
         let customised = line.replace("...", input); // copies line and replaces ... with user input
         userPoem.push(customised); // pushes customised line to empty array
@@ -195,14 +198,22 @@ typo() {
         console.clear();
         this.surprise();
         break;
+      case "n":
+        this.goodbye();
       default:
-        return "Goodbye!";
+        return this.typo();
       }
   },
   surprise() {
     const surprise = this.poems.find((poem) => poem.number === 4);
-    return surprise.stanza.forEach((line) => prompt(`${line}`));
+    surprise.stanza.forEach((line) => prompt(line)); // used prompt so user can hit enter to print next line
+    this.goodbye();
   },
+  goodbye() {
+    console.clear();
+    prompt(`\nGoodbye ${this.username}!`);
+    return console.clear();
+  }
 };
 
 thePoetThatDidNotKnowIt.poems.push(poem1, poem2, poem3, poem4);
