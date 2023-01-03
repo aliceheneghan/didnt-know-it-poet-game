@@ -1,1 +1,1 @@
-## The Poet That Did Not Know It - a JS terminal game
+## Didn't Know It Poet - a JS terminal game
